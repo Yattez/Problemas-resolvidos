@@ -4,52 +4,47 @@
 
 using namespace std;
 
-int pai[250010];
-
-bool ordenas(pair<int,pair<int,int>> A, pair<int,pair<int,int>> B){
-	if(A.first>B.first) return true;
-	return false;
-}
-
-int findPath(int x){
-	if(pai[x]==x) return x;
-	return pai[x] = findPath(pai[x]);
-}
+struct Edge {
+    int u, v, w;
+    bool operator<(Edge const& other) {
+        return w < other.w;
+    }
+};
 
 int main(){
 	//~ freopen("input.txt","r",stdin);
 	//~ freopen("output.txt","w",stdout);
-	int n, e, a, b, v;
+	int n, e, a, b, d;
 	vector<pair<int,pair<int,int>>>vec;
 	cin>>n>>e;
 	while(n || e){
-		for(int i=0; i<n; i++)pai[i]=i;
+		vector<Edge> edges;
+		vector<int> tree_id(n);
 		priority_queue<int,vector<int>,greater<int>> pq;
-		vec.clear();
+		for (int i = 0; i < n; i++)tree_id[i] = i;
+		
 		for(int i=0; i<e; i++){
-			cin>>a>>b>>v;
-			vec.push_back({v,{a, b}});
+			cin>>a>>b>>d;
+			Edge aux;
+			
+			aux.u=a;
+			aux.v=b;
+			aux.w=d;
+			edges.push_back(aux);
 		}
-		sort(vec.begin(), vec.end());
-		for(int i=0; i<e; i++){
-			
-			int dist = vec[i].f;
-			int u = vec[i].s.f;
-			int v = vec[i].s.s;
-			
-			int Pv = findPath(v);
-			int Pu = findPath(u);
-			
-			//verificar se os dois nodes tem o mesmo pai
-			if(Pu != Pv){
-				//nao fazer desse jeito ruim, pesquisa "path compression" ai
-				pai[Pu] = Pv;
+		sort(edges.begin(), edges.end());
+		for (Edge e : edges) {
+			if (tree_id[e.u] != tree_id[e.v]) {
+								int old_id = tree_id[e.u], new_id = tree_id[e.v];
+				for (int i = 0; i < n; i++) {
+					if (tree_id[i] == old_id)
+						tree_id[i] = new_id;
+				}
 			}
 			else{
-				pq.push(dist);
-			}	
+				pq.push(e.w);
+			}
 		}
-
 		if(pq.empty()){
 			cout<<"forest"<<endl;
 		}
@@ -65,4 +60,3 @@ int main(){
 		cin>>n>>e;
 	}
 }
-
