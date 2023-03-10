@@ -20,14 +20,12 @@ int main(){
 	while(n || e){
 		vector<Edge> edges;
 		vector<int> tree_id(n);
-		vector<Edge> result;
-		
 		for (int i = 0; i < n; i++)tree_id[i] = i;
 		
 		for(int i=0; i<e; i++){
 			cin>>a>>b>>d;
-		
 			Edge aux;
+			
 			aux.u=a;
 			aux.v=b;
 			aux.w=d;
@@ -38,7 +36,6 @@ int main(){
 		for (Edge e : edges) {
 			if (tree_id[e.u] != tree_id[e.v]) {
 				
-				result.push_back(e);
 
 				int old_id = tree_id[e.u], new_id = tree_id[e.v];
 				for (int i = 0; i < n; i++) {
@@ -50,8 +47,7 @@ int main(){
 				cost += e.w;
 			}
 		}
-		cout<<cost;
-		cout<<endl;
+		cout<<cost<<endl;
 		cin>>n>>e;
 	}
 }
