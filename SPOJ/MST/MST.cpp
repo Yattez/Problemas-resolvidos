@@ -66,7 +66,7 @@ void kruskal(int n){
 
 int main(){
 	ios_base::sync_with_stdio(false);cin.tie(NULL);
-    //~ freopen("input.txt","r",stdin);
+   	//~ freopen("input.txt","r",stdin);
 	//~ freopen("output.txt","w",stdout);
 	int n,e,x,y,z;
 	cin>>n>>e;
