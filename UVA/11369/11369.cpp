@@ -7,32 +7,35 @@
 using namespace std;
 
 int const inf=10e7;
-vector<pair<int,int>>v;
+priority_queue<int>v;
 
+int off(){
+	int d=0;
+	while(!v.empty()){
+		for(int i=0;i<2 && !v.empty();i++){
+			v.pop();
+		}
+		if(!v.empty()){
+			 d+=v.top();
+			 v.pop();
+		 }
+	 }
+	 return d;
+}
 
 
 signed main(){
 	ios_base::sync_with_stdio(false);cin.tie(NULL);
     //~ freopen("input.txt","r",stdin);
 	//~ freopen("output.txt","w",stdout);
-	
-	int t,x,y;
+	int t,n,x;
 	cin>>t;
 	while(t--){
-		cin>>x>>y;
-		v.push_back({x,y});
-	}
-	sort(v.begin(),v.end());
-	int in=v[0].f,fim=v[0].s;
-	for(int i=1;i<(int)v.size();i++){
-		if(v[i].f<=fim){
-			if(v[i].s>fim)fim=v[i].s;
+		cin>>n;
+		while(n--){
+			cin>>x;
+			v.push(x);
 		}
-		else{
-			cout<<in<<" "<<fim<<endl;
-			in=v[i].f;
-			fim=v[i].s;
-		}
+		cout<<off()<<endl;
 	}
-	cout<<in<<" "<<fim<<endl;
 }
