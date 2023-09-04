@@ -15,21 +15,23 @@ int n;
  
 void makeset(){
 	for(int i=0;i<=n+1;i++){
-		dp[i]=-1;
+		dp[i]=0;
 	}
 }
  
 int dice(int sum){
-	if(sum==0)return 1;
-	if(sum<0)return 0;
 	
-	if(dp[sum]!=-1)return dp[sum];
-	
-	int z=0;
-	for(int i=1;i<=6;i++){
-		z+=dice(sum-i);
+	dp[0]=1;
+	for(int i=0;i<n;i++){
+		for(int j=1;j<=6;j++){
+			dp[i] %= mod;
+			if(i+j<=sum){
+				dp[i+j]+=dp[i];
+			}
+		}
 	}
-	return dp[sum]=z%mod;
+	return dp[sum] % mod;
+	
 }
  
 signed main(){
