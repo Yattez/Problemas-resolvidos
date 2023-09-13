@@ -12,44 +12,37 @@ struct fenwick{
     vector<int> f;
     int n;
     
-    int query(int id)
-	{
+    int query(int id){
 		int res = 0;
-		for (;id;id=id-(id& -id)) // compara em bytes e acha o primeiro numero da direita para a esquerda
-		{
+		for (;id;id=id-(id& -id)){ // compara em bytes e acha o primeiro numero da direita para a esquerda
 			res+=f[id];
 		} 
 		return res;
 		
 	}
 	
-	void upd(int id, int x)
-	{
-		for (; id<=n; id=id+(id&-id))
-		{
+	void upd(int id, int x){
+		for (; id<=n; id=id+(id&-id)){
 			f[id]+=x;
 		}
 	}
 	
 public:
-	 fenwick(vector<int>const&v){
+	fenwick(vector<int>const&v){
         n = (int)v.size();
         f.assign(n+1,0);
         for (int i=0; i<n;++i)
             upd(i+1, v[i]);
-    }
-	int query(int l , int r)
-	{
+   	 }
+	int query(int l , int r){
 		return query(r) - (l?query(l-1):0);
 	}
 	
-	void up(int id, int x)
-	{
+	void up(int id, int x){
 		upd(id, x);//precisa comecar com id = 1
 	}
 	
-	void upd(int l, int r, int x)
-	{
+	void upd(int l, int r, int x){
 		upd(l,x);
 		up(r+1, -x);
 	}
